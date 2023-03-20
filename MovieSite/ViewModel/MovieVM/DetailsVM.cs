@@ -13,7 +13,7 @@ namespace MovieSite.ViewModel.MovieVM
         public IFormFile file { get; set; }
         public string TrailerURL { get; set; }
         public bool IsFavorite { get; set; }
-       public List<Comment> comments { get; set; }
-        public int Votes { get; set; }
+        public List<Comment> comments { get; set; }
+        public int Votes { get; set; }       
     }
 }

@@ -2,6 +2,7 @@
 {
     public enum MovieCategory
     {
+        All,
         Action,
         Adventure,
         Animation,

@@ -25,9 +25,25 @@ namespace MovieSite.Controllers
             commentRepository = new CommentRepository();
             ratingRepository = new RatingRepository();
         }
-        public IActionResult Categories()
+        public IActionResult Categories(DisplayVM model)
         {
-            return View();
+            model.Pager ??= new PagerVM();
+            model.Filter ??= new FilterVM();
+            model.Pager.ItemsPerPage = model.Pager.ItemsPerPage <= 0
+                                        ? 10
+                                        : model.Pager.ItemsPerPage;
+
+            model.Pager.Page = model.Pager.Page <= 0
+                                    ? 1
+                                    : model.Pager.Page;
+
+            var filter = model.Filter.GetFilter();
+
+
+            model.Movies = movieRepository.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
+            model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);
+            model.CurrentCategoryFilter = model.Filter.Category;
+            return View(model);
         }
 
         public IActionResult MovieAdmin(DisplayVM model)
@@ -179,22 +195,21 @@ namespace MovieSite.Controllers
             commentRepository.InsertComment(comment);
             return RedirectToAction("Details", "Movie", new { id = movieId });
         }
-        public IActionResult Rate(int movieId)
+        public ActionResult Rate(int movieId, int rated)
         {
-            if (!User.Identity.IsAuthenticated)
+            Rating rating = ratingRepository.FindRated(movieId, Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
+                      
+            if (rating==null)
             {
-                return RedirectToAction("Login", "Users");
+                rating = new Rating();
+                rating.MovieId = movieId;
+                rating.UserId = Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value);
             }
-            Rating rating = new Rating();
-            Movie movie = movieRepository.GetById(movieId);
-
-            movie.Votes++;
-
+            rating.Rated = rated;
             ratingRepository.isRated(rating);
-            movieRepository.UpdateMovie(movie);
-
-            return RedirectToAction("Details", "Movie", new { id = movieId });
+            return RedirectToAction("Details", new { id = movieId });
         }
+
         public IActionResult FavoriteList(DisplayVM model)
         {
             model.Pager ??= new PagerVM();

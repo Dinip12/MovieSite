@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Scrypt;
 
 namespace MovieSite.Repository
 {
@@ -47,6 +48,9 @@ namespace MovieSite.Repository
         {
             User user = context.Users.Find(id);
             context.Users.Remove(user);
+            context.Ratings.RemoveRange(context.Ratings.Where(x => x.MovieId == id));
+            context.Favorites.RemoveRange(context.Favorites.Where(x => x.MovieId == id));
+            context.Comments.RemoveRange(context.Comments.Where(x => x.MovieId == id));
             context.SaveChanges();
         }
         public void UpdateUser(User item)
@@ -71,11 +75,12 @@ namespace MovieSite.Repository
         }
         public User getByEmailAndPassword(string email, string password)
         {
-            foreach (var item in context.Users)
+            ScryptEncoder encoder = new ScryptEncoder();
+            foreach (var user in context.Users)
             {
-                if (item.email == email && item.password == password)
+                if (user.email.Equals(email) && encoder.Compare(password, user.password))
                 {
-                    return item;
+                    return user;
                 }
             }
             return null;

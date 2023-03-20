@@ -12,6 +12,17 @@ public class RatingRepository
     {
         context = new AppDbContext();
     }
+    public void isRated(Rating rating)
+    {
+        if (rating.Id > 0)
+        {            
+            UpdateRating(rating);
+        }
+        else
+        {
+            InsertRating(rating);
+        }
+    }
     public void InsertRating(Rating item)
     {
         Rating rating = new Rating();
@@ -36,16 +47,20 @@ public class RatingRepository
         context.Entry(rating).State = EntityState.Modified;
         context.SaveChanges();
     }
-    public void isRated(Rating rate)
+    public Rating FindRated(int movieid, int userId)
     {
         foreach (var item in context.Ratings)
         {
-            if (item.MovieId == rate.MovieId && item.UserId == rate.UserId)
+            if (item.MovieId == movieid && item.UserId == userId)
             {
-                UpdateRating(rate);
+                return item;
             }
         }
-        InsertRating(rate);
+        return null;
+    }
+    public Rating GetById(int id)
+    {
+        return context.Ratings.Find(id);
     }
 }
 

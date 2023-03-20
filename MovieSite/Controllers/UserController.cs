@@ -14,10 +14,11 @@ namespace ProjectManager.Controllers
     public class UsersController : Controller
     {
         private UsersRepository userRepo;
-
+        private ScryptEncoder encoder;
         public UsersController()
         {
             this.userRepo = new UsersRepository();
+            this.encoder = new ScryptEncoder();
         }
         //------------------LOGOUT-------------------------------//
         public IActionResult Logout()
@@ -43,7 +44,7 @@ namespace ProjectManager.Controllers
             User user = new User();
 
             user.username = item.Username;
-            user.password = item.Password;
+            user.password = encoder.Encode(item.Password);
             user.email = item.Email;
             user.IsAdmin = false;
             usersRepository.AddUser(user);
@@ -154,7 +155,7 @@ namespace ProjectManager.Controllers
             UsersRepository userRepo = new UsersRepository();
             User user = new User();
             user.username = item.Username;
-            user.password = item.Password;
+            user.password = encoder.Encode(item.Password);
             user.email = item.Email;
             user.IsAdmin = item.IsAdmin;
 
@@ -203,7 +204,7 @@ namespace ProjectManager.Controllers
             User user = new User();
             user.Id = item.ID;
             user.username = item.Username;
-            user.password = item.Password;
+            user.password = encoder.Encode(item.Password);
             user.email = item.Email;
             user.IsAdmin = item.IsAdmin;
 
@@ -216,10 +217,13 @@ namespace ProjectManager.Controllers
         [HttpGet]
         public IActionResult UserSettings()
         {
-            // Get the user from the database based on the ID
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+
             User user = userRepo.GetById(Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
 
-            // Create a view model to store the user's data
             EditVM edit = new EditVM
             {
                 ID = user.Id,
@@ -228,27 +232,21 @@ namespace ProjectManager.Controllers
                 Password = ""
             };
 
-            // Return the view with the view model
             return View(edit);
         }
 
         [HttpPost]
         public IActionResult UserSettings(EditVM viewModel)
         {
-            // Get the user from the database based on the ID
-            User user = userRepo.GetById(Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
+            User user = userRepo.GetById(viewModel.ID);
 
-            // Update the user's email and password
             user.email = viewModel.Email;
             if (!string.IsNullOrEmpty(viewModel.Password))
             {
-                user.password = viewModel.Password;
+                user.password = encoder.Encode(viewModel.Password);
             }
-
-            // Save the changes to the database
             userRepo.UpdateUser(user);
 
-            // Redirect to the user list page
             return RedirectToAction("UserSettings");
         }
 

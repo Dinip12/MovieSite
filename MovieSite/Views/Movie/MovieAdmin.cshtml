@@ -1,8 +1,7 @@
 ﻿@using MovieSite.Data.Enums
-
 @model MovieSite.ViewModel.MovieVM.DisplayVM
 @{
-    ViewBag.Title = "USER LIST";
+    ViewBag.Title = "MOVIE LIST";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 <div class="grid">
@@ -15,28 +14,32 @@
             </div>
             <div class="col-4">
                 @Html.LabelFor(x=>x.Filter.Description)
-                <div class="col-2">
-                </div>
             </div>
-            <div class="row" style="margin-left:250px">
-                <div class="col-4">
-                    @Html.TextBoxFor(x=>x.Filter.Title)
-                </div>
-                <div class="col-4">
-                    @Html.TextBoxFor(x=>x.Filter.Description)
-                </div>
 
-                <div class="col-2">
-                    <input type="submit" value="Filter" />
-                    <a href="/Movie/MovieAdmin">Clear</a>
+            <div class="col-2">
+            </div>
+        </div>
+        <div class="row" style="margin-left:250px">
+            <div class="col-4">
+                @Html.TextBoxFor(x => x.Filter.Title)
+            </div>
+            <div class="col-4">
+                @Html.TextBoxFor(x => x.Filter.Description)
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="Filter.Category" class="control-label"></label>
+                    <select asp-for="Filter.Category" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                    <span asp-validation-for="Filter.Category" class="text-danger"></span>
                 </div>
             </div>
+            <div class="col-2">
+                <input type="submit" value="Filter" />
+                <a href="/Movie/MovieAdmin">Clear</a>
+            </div>
+        </div>
+
     </form>
-
-
-
-
-
 
     <div class="row" style="margin-left:250px">
         <div class="col-3">
@@ -51,16 +54,9 @@
         </div>
 
         <div class="col-1 textColor">
-            Description
-        </div>
-        <div class="col-1 textColor">
             Category
         </div>
 
-
-        <div class="col-1 textColor">
-            Actions
-        </div>
         <div class="col-2">
         </div>
     </div>
@@ -72,22 +68,16 @@
             </div>
 
             <div class="col-1">
-                @item.Description
-            </div>
-
-
-
-            <div class="col-1">
-                @item.movieCategory;
+                @item.movieCategory.ToString()
             </div>
 
             <div class="col-2">
-                @Html.ActionLink("Edit ", "UpdateUser", new { id=item.Id })|
-                @Html.ActionLink("Delete", "DeleteUser", new { id=item.Id }, new{onclick ="return confirm('Do you realy want to delete')"})
+                @Html.ActionLink("Edit ", "UpdateMovie", new { id=item.Id })|
+                @Html.ActionLink("Delete", "DeleteMovie", new { id=item.Id }, new{onclick ="return confirm('Do you really want to delete')"})
             </div>
         </div>
     }
-    <div style="margin-left:250px">
+    <div style="margin-left:250px;margin-bottom:200px;">
         @{
             Html.RenderPartial("/Views/Shared/PagerPartial.cshtml", Model.Pager);
         }

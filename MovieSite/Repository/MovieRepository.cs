@@ -23,7 +23,7 @@ namespace MovieSite.Repository
             movie.Description = item.Description;
             movie.movieCategory = item.movieCategory;
             movie.TrailerURL = item.TrailerURL;
-            
+            movie.fileName = item.fileName;
 
             context.Movies.Add(movie);
             context.SaveChanges();
@@ -34,7 +34,9 @@ namespace MovieSite.Repository
             Movie movie = context.Movies.Find(id);
 
             context.Movies.Remove(movie);
-
+            context.Ratings.RemoveRange(context.Ratings.Where(x => x.MovieId == id));
+            context.Favorites.RemoveRange(context.Favorites.Where(x => x.MovieId == id));
+            context.Comments.RemoveRange(context.Comments.Where(x => x.MovieId == id));
             context.SaveChanges();
         }
 

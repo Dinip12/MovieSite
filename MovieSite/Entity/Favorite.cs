@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieSite.Entity
 {
-    [Table("Favourites")]
+    [Table("Favorites")]
     public class Favorite
     {
         [Key]
