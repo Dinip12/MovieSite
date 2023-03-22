@@ -11,7 +11,6 @@ namespace MovieSite.Entity
         public int Id { get; set; }
         public int UserId { get; set; }
         public int MovieId { get; set; }
-        public int Rated { get; set; }
-        public int Votes { get;set; }
+        public int Rated { get; set; }       
     }
 }

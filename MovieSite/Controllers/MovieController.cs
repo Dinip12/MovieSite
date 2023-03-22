@@ -45,7 +45,6 @@ namespace MovieSite.Controllers
             model.CurrentCategoryFilter = model.Filter.Category;
             return View(model);
         }
-
         public IActionResult MovieAdmin(DisplayVM model)
         {
             model.Pager ??= new PagerVM();
@@ -65,7 +64,6 @@ namespace MovieSite.Controllers
             model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);
 
             return View(model);
-
         }
         [HttpGet]
         public IActionResult Create()
@@ -88,12 +86,13 @@ namespace MovieSite.Controllers
                 file.CopyTo(fileStream);
             }
 
-
-
             movie.Title = item.Title;
             movie.Description = item.Description;
             movie.movieCategory = item.MovieCategory;
             movie.TrailerURL = item.TrailerURL;
+            movie.Actors = item.Actors;
+            movie.ReleaseYear = item.ReleaseYear;
+            movie.Studio = item.Studio;
 
             movieRepo.InsertMovie(movie);
             return RedirectToAction("MovieAdmin", "Movie");
@@ -102,28 +101,28 @@ namespace MovieSite.Controllers
         //------------------DELETING Movie METHOD----------------//
         public IActionResult DeleteMovie(int id)
         {
-
-
             movieRepository.DeleteMovieByID(id);
 
             return RedirectToAction("MovieAdmin", "Movie");
         }
-
-
         //------------------------------------------------------//
         //------------------UPDATE Movie METHOD-------------------------//
         [HttpGet]
         public IActionResult UpdateMovie(int id)
         {
             AppDbContext context = new AppDbContext();
-            Movie movie = movieRepository.GetById(id);// no idea if this is right
+            Movie movie = movieRepository.GetById(id);
             EditVM item = new EditVM();
 
             item.ID = movie.Id;
             movie.Title = item.Title;
             movie.Description = item.Description;
-            movie.movieCategory = item.MovieCategory;//should edit Movie.EditVM
+            movie.movieCategory = item.MovieCategory;
             movie.TrailerURL = item.TrailerURL;
+            movie.Actors = item.Actors;
+            movie.ReleaseYear = item.ReleaseYear;
+            movie.Studio = item.Studio;
+
             return View(item);
         }
         [HttpPost]
@@ -134,30 +133,36 @@ namespace MovieSite.Controllers
             movie.Id = item.ID;
             movie.Title = item.Title;
             movie.Description = item.Description;
-            movie.movieCategory = item.MovieCategory;//should edit Movie.EditVM
+            movie.movieCategory = item.MovieCategory;
             movie.TrailerURL = item.TrailerURL;
-
+            movie.Actors = item.Actors;
+            movie.ReleaseYear = item.ReleaseYear;
+            movie.Studio = item.Studio;
 
             movieRepo.UpdateMovie(movie);
 
-            return RedirectToAction("MovieAdmin", "Movie");//redirect to somewhere???
+            return RedirectToAction("MovieAdmin", "Movie");
         }
         //------------------------------------------------------//
         public IActionResult Details(int id)
         {
             Movie item = movieRepository.GetById(id);
 
-            DetailsVM movie = new DetailsVM();
-            movie.id = item.Id;
-            movie.Title = item.Title;
-            movie.Description = item.Description;
-            movie.MovieCategory = item.movieCategory;//should edit Movie.EditVM
-            movie.TrailerURL = item.TrailerURL;
-            movie.IsFavorite = item.IsFavorite;
-            movie.comments = commentRepository.GetallCommentsByMovieId(movie.id);
-            return View(movie);
+            DetailsVM detailsVM = new DetailsVM();
+            detailsVM.id = item.Id;
+            detailsVM.Title = item.Title;
+            detailsVM.Description = item.Description;
+            detailsVM.MovieCategory = item.movieCategory;
+            detailsVM.TrailerURL = item.TrailerURL;
+            detailsVM.IsFavorite = item.IsFavorite;
+            detailsVM.comments = commentRepository.GetallCommentsByMovieId(detailsVM.id);
+            detailsVM.Rating = ratingRepository.GetAverageRating(id);
+            detailsVM.Votes = item.Votes;
+            detailsVM.Actors = item.Actors;
+            detailsVM.ReleaseYear = item.ReleaseYear;
+            detailsVM.Studio = item.Studio;
+            return View(detailsVM);
         }
-
         public IActionResult Follow(int movieId)
         {
             if (!User.Identity.IsAuthenticated)
@@ -175,8 +180,6 @@ namespace MovieSite.Controllers
                 favoriteRepository.isFavorite(UserId, movieId);
             }
 
-
-
             return RedirectToAction("Details", "Movie", new { id = movieId });
         }
         public IActionResult AddComment(int movieId, string text)
@@ -186,10 +189,12 @@ namespace MovieSite.Controllers
                 return RedirectToAction("Login", "Users");
             }
             Comment comment = new Comment();
+            UsersRepository userrepo = new UsersRepository();
+
             comment.MovieId = movieId;
             comment.UserId = Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value);
             comment.Text = text;
-            UsersRepository userrepo = new UsersRepository();
+            
 
             comment.Username = userrepo.GetUsernameById(Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
             commentRepository.InsertComment(comment);
@@ -198,8 +203,8 @@ namespace MovieSite.Controllers
         public ActionResult Rate(int movieId, int rated)
         {
             Rating rating = ratingRepository.FindRated(movieId, Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
-                      
-            if (rating==null)
+
+            if (rating == null)
             {
                 rating = new Rating();
                 rating.MovieId = movieId;
@@ -209,7 +214,6 @@ namespace MovieSite.Controllers
             ratingRepository.isRated(rating);
             return RedirectToAction("Details", new { id = movieId });
         }
-
         public IActionResult FavoriteList(DisplayVM model)
         {
             model.Pager ??= new PagerVM();
@@ -227,6 +231,5 @@ namespace MovieSite.Controllers
 
             return View(model);
         }
-
     }
 }

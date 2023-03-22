@@ -5,12 +5,15 @@ using System.Linq.Expressions;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using MovieSite.Repository;
 public class RatingRepository
 {
     private readonly AppDbContext context;
+    private readonly MovieRepository movieRepository;
     public RatingRepository()
     {
         context = new AppDbContext();
+        movieRepository = new MovieRepository();
     }
     public void isRated(Rating rating)
     {
@@ -26,10 +29,14 @@ public class RatingRepository
     public void InsertRating(Rating item)
     {
         Rating rating = new Rating();
+        Movie movie = movieRepository.GetById(item.MovieId);
 
         rating.UserId = item.UserId;
         rating.MovieId = item.MovieId;
         rating.Rated = item.Rated;
+        movie.Votes += 1;
+
+        context.Entry(movie).State = EntityState.Modified;
         context.Ratings.Add(rating);
         context.SaveChanges();
     }
@@ -41,8 +48,7 @@ public class RatingRepository
 
         rating.UserId = item.UserId;
         rating.MovieId = item.MovieId;
-        rating.Rated = item.Rated;
-        rating.Votes = item.Votes;
+        rating.Rated = item.Rated;       
 
         context.Entry(rating).State = EntityState.Modified;
         context.SaveChanges();
@@ -62,5 +68,19 @@ public class RatingRepository
     {
         return context.Ratings.Find(id);
     }
+    public double GetAverageRating(int movieId)
+    {
+        try
+        {
+            return Math.Round(context.Ratings.Where(x => x.MovieId == movieId).Average(x => x.Rated), 2);
+        }
+        catch
+        {
+
+            return 0;
+        }
+       
+    }
+    /*Math.Round(context.Ratings.Where(x => x.MovieId == movieId).Average(x => x.Rated),2);*/
 }
 

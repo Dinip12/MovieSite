@@ -30,16 +30,12 @@
                             {
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
-
-                                            <div class="ep">18 / 18</div>
-                                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>                                            
+                                            <div class="view"><i class="fa fa-eye"></i> @item.Votes</div>
                                         </div>
                                         <div class="product__item__text">
                                             <ul>
-                                                <li>Active</li>
-                                                <li>Movie</li>
+                                                <li>@item.movieCategory</li>                                                
                                             </ul>
                                             <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
                                         </div>
@@ -66,16 +62,12 @@
                             {
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
-
-                                            <div class="ep">18 / 18</div>
-                                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>                                            
+                                            <div class="view"><i class="fa fa-eye"></i> @item.Votes</div>
                                         </div>
                                         <div class="product__item__text">
                                             <ul>
-                                                <li>Active</li>
-                                                <li>Movie</li>
+                                                <li>@item.movieCategory</li>                                                
                                             </ul>
                                             <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
                                         </div>
@@ -102,16 +94,12 @@
                             {
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
-
-                                            <div class="ep">18 / 18</div>
-                                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>                                            
+                                            <div class="view"><i class="fa fa-eye"></i> @item.Votes</div>
                                         </div>
                                         <div class="product__item__text">
                                             <ul>
-                                                <li>Active</li>
-                                                <li>Movie</li>
+                                                <li>@item.movieCategory</li>                                                
                                             </ul>
                                             <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
                                         </div>

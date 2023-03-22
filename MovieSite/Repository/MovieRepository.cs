@@ -24,6 +24,9 @@ namespace MovieSite.Repository
             movie.movieCategory = item.movieCategory;
             movie.TrailerURL = item.TrailerURL;
             movie.fileName = item.fileName;
+            movie.Actors = item.Actors;
+            movie.ReleaseYear = item.ReleaseYear;
+            movie.Studio = item.Studio;
 
             context.Movies.Add(movie);
             context.SaveChanges();
@@ -52,6 +55,9 @@ namespace MovieSite.Repository
             movie.TrailerURL = item.TrailerURL;
             movie.Votes = item.Votes;
             movie.IsFavorite = item.IsFavorite;
+            movie.Actors = item.Actors;
+            movie.ReleaseYear = item.ReleaseYear;
+            movie.Studio = item.Studio;
 
             context.Entry(movie).State = EntityState.Modified;
             context.SaveChanges();

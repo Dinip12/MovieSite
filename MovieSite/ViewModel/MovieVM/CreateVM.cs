@@ -17,5 +17,8 @@ namespace MovieSite.ViewModel.MovieVM
         public MovieCategory MovieCategory { get; set; }
         public IFormFile file { get; set; }
         public string TrailerURL { get; set; }
+        public string Actors { get; set; }
+        public string ReleaseYear { get; set; }
+        public string Studio { get; set; }
     }
 }

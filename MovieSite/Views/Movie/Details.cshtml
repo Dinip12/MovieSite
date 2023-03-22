@@ -24,24 +24,24 @@
 
             // Create the modal dialog HTML
             var modalHtml = `
-                    <div class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="trailer-modal-label" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="trailer-modal-label">@Model.Title Trailer</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="embed-responsive embed-responsive-16by9">
-                                        <iframe class="embed-responsive-item" src="${embedUrl}" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                                                                                                                                    <div class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="trailer-modal-label" aria-hidden="true">
+                                                                                                                                        <div class="modal-dialog modal-lg" role="document">
+                                                                                                                                            <div class="modal-content">
+                                                                                                                                                <div class="modal-header">
+                                                                                                                                                    <h5 class="modal-title" id="trailer-modal-label">@Model.Title Trailer</h5>
+                                                                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                                                                                    </button>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="modal-body">
+                                                                                                                                                    <div class="embed-responsive embed-responsive-16by9">
+                                                                                                                                                        <iframe class="embed-responsive-item" src="${embedUrl}" allowfullscreen></iframe>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                `;
 
             // Add the modal dialog to the body of the page
             $("body").append(modalHtml);
@@ -62,8 +62,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">Categories</a>
+                        <a href="/Home/index"><i class="fa fa-home"></i> Home</a>
+                        <a href="/Home/categories">Categories</a>
                         <span>Romance</span>
                     </div>
                 </div>
@@ -78,9 +78,9 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="anime__details__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  @Model.id})">
-                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                            <button id="trailer-button" onclick="showTrailer()" class="btn btn-primary">Watch Trailer</button>
+
+                            <div class="view"><i class="fa fa-star"></i> @Model.Rating</div>
+                            <button id="trailer-button" onclick="showTrailer()" class="btn btn-primary">Гледайте Трейлър</button>
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -89,15 +89,24 @@
                                 <h3>@Model.Title</h3>
                             </div>
                             <div class="anime__details__rating">
-                                <div class="rating">
-                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 1 })"><i class="fa fa-star"></i></a>
-                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 2 })"><i class="fa fa-star"></i></a>
-                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 3 })"><i class="fa fa-star"></i></a>
-                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 4 })"><i class="fa fa-star"></i></a>
-                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 5 })"><i class="fa fa-star-half-o"></i></a>
-                                </div>
-
-                                <span>@Model.Votes/span>
+                                <div class="rating" id="stars">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 1 })"><i class="fa fa-star"></i></a>
+                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 2 })"><i class="fa fa-star"></i></a>
+                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 3 })"><i class="fa fa-star"></i></a>
+                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 4 })"><i class="fa fa-star"></i></a>
+                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 5 })"><i class="fa fa-star-half-o"></i></a>
+                                    }
+                                    @if (!User.Identity.IsAuthenticated)
+                                    {
+                                        <a href="/users/login"><i class="fa fa-star"></i></a>
+                                        <a href="/users/login"><i class="fa fa-star"></i></a>
+                                        <a href="/users/login"><i class="fa fa-star"></i></a>
+                                        <a href="/users/login"><i class="fa fa-star"></i></a>
+                                        <a href="/users/login"><i class="fa fa-star-half-o"></i></a>
+                                    }
+                                </div>                                
                             </div>
                             <p>
                                 @Model.Description
@@ -106,20 +115,16 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Type:</span> TV Series</li>
-                                            <li><span>Studios:</span> Lerche</li>
-                                            <li><span>Date aired:</span> Oct 02, 2019 to ?</li>
-                                            <li><span>Status:</span> Airing</li>
-                                            <li><span>Genre:</span> @Model.MovieCategory</li>
+                                            <li><span>Тип:</span> Филм</li>
+                                            <li><span>Студио:</span> @Model.Studio</li>
+                                            <li><span>Жанр:</span> @Model.MovieCategory</li>
                                         </ul>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Scores:</span> 7.31 / 1,515</li>
-                                            <li><span>Rating:</span> 8.5 / 161 times</li>
-                                            <li><span>Duration:</span> 24 min/ep</li>
-                                            <li><span>Quality:</span> HD</li>
-                                            <li><span>Views:</span> 131,541</li>
+                                            <li><span>Ратинг:</span> @Model.Rating/ @Model.Votes</li>
+                                            <li><span>Актьори:</span> @Model.Actors</li>
+                                            <li><span>Година на създаване:</span> @Model.ReleaseYear</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -165,6 +170,12 @@
                                 </p>
                             </div>
                         </div>
+                        @if (User.Identity.AuthenticationType == "Admin")
+                        {
+                            <div class="col-2">
+                                @Html.ActionLink("Delete", "DeleteMovie", new { id=item.Id }, new{onclick ="return confirm('Do you really want to delete')"})
+                            </div>
+                        }
                     }
                 </div>
                 @if (User.Identity.IsAuthenticated)
@@ -182,34 +193,6 @@
                     </div>
                 }
             </div>
-            <div class="col-lg-4 col-md-4">
-                <div class="anime__details__sidebar">
-                    <div class="section-title">
-                        <h5>you might like...</h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-1.jpg">
-                        <div class="ep">18 / ?</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        <h5><a href="#">Boruto: Naruto next generations</a></h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-2.jpg">
-                        <div class="ep">18 / ?</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-3.jpg">
-                        <div class="ep">18 / ?</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        <h5><a href="#">Sword art online alicization war of underworld</a></h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg" data-setbg="img/sidebar/tv-4.jpg">
-                        <div class="ep">18 / ?</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
         </div>
     </section>
     <!-- Anime Section End -->

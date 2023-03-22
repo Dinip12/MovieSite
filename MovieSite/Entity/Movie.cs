@@ -16,10 +16,11 @@ namespace MovieSite.Entity
         [Required]
         public string Description { get; set; }
         public string fileName { get; set; }
-        public string TrailerURL { get; set; } 
-        public int Votes { get; set; }// whenever a user votes a movie its current vote count increases and vise-versa 
+        public string TrailerURL { get; set; }
+        public int Votes { get; set; }
         public bool IsFavorite { get; set; } = false;
-
-       // public int Clicks { get; set; }//to be made
+        public string Actors { get; set; }
+        public string ReleaseYear { get; set; }
+        public string Studio { get; set; }
     }
 }
