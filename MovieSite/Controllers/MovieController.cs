@@ -200,8 +200,17 @@ namespace MovieSite.Controllers
             commentRepository.InsertComment(comment);
             return RedirectToAction("Details", "Movie", new { id = movieId });
         }
+        public IActionResult DeleteComment(int commentId,int movieId)
+        {
+            commentRepository.DeleteCommentByID(commentId);
+            return RedirectToAction("Details", "Movie", new { id = movieId });
+        }
         public ActionResult Rate(int movieId, int rated)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Users");
+            }
             Rating rating = ratingRepository.FindRated(movieId, Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
 
             if (rating == null)

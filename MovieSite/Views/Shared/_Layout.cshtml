@@ -1,5 +1,4 @@
-﻿
-<html lang="en">
+﻿<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Anime Template">
@@ -24,11 +23,7 @@
     <link rel="stylesheet" href="~/css/style.css" type="text/css">
 </head>
 <body>
-    <header class="header">
-        @* <div id="preloder">
-        <div class="loader"></div>
-        </div>*@
-
+    <header class="header">       
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
@@ -42,9 +37,9 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="~/Home/index">Homepage</a></li>
-                                <li><a href="/Movie/categories">Categories </a></li>
-                                <li><a href="#">Contacts</a></li>
+                                <li class="active"><a href="~/Home/index">Начална Старница</a></li>
+                                <li><a href="/Movie/categories">Жанрове </a></li>
+                                <li><a href="#">Контакти</a></li>
                                 @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
                                 {
                                     <li><a href="/Movie/MovieAdmin">MovieAdmin</a></li>
@@ -67,14 +62,14 @@
 
                                         @if (!User.Identity.IsAuthenticated)
                                         {
-                                            <li><a href="/Users/login">Login</a></li>
-                                             <li><a href="/Users/SignUp">Register</a></li>
+                                            <li><a href="/Users/login">Вход в профила</a></li>
+                                             <li><a href="/Users/SignUp">Регистрирай се</a></li>
                                         }
                                         else
                                         {
-                                            <li><a href="/Users/Logout">Logout</a></li>
-                                            <li><a href="/movie/favoritelist">Favorites</a></li>
-                                            <li><a href="/Users/UserSettings">User settings</a></li>
+                                            <li><a href="/Users/Logout">Излез от профила</a></li>
+                                            <li><a href="/movie/favoritelist">Любими фимлми</a></li>
+                                            <li><a href="/Users/UserSettings">Настройки за профила</a></li>
                                         }
                                     </ul>
                                 </li>
@@ -105,9 +100,9 @@
             <div class="col-lg-6">
                 <div class="footer__nav">
                     <ul>
-                        <li class="active"><a href="/Home/index">Homepage</a></li>
-                        <li><a href="/Movie/categories">Categories</a></li>
-                        <li><a href="#">Contacts</a></li>
+                        <li class="active"><a href="/Home/index">Начална Страница</a></li>
+                        <li><a href="/Movie/categories">Жанрове</a></li>
+                        <li><a href="#">Контакти</a></li>
                         @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
                         {
                             <li><a href="/Movie/MovieAdmin">MovieAdmin</a></li>
@@ -116,13 +111,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    <a href="https://colorlib.com" target="_blank">Anime Template</a> is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-            </div>
+           
         </div>
     </div>
 </footer>
@@ -132,7 +121,7 @@
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
             <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
+                <input type="text" id="search-input" placeholder="Търси тук.....">
             </form>
         </div>
     </div>
@@ -145,6 +134,6 @@
     <script src="~/js/mixitup.min.js"></script>
     <script src="~/js/jquery.slicknav.js"></script>
     <script src="~/js/owl.carousel.min.js"></script>
-    <script src="~/js/main.js"></script>
+    <script src="~/js/main.js"></script>    
 </body>
 </html>

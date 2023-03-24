@@ -80,7 +80,6 @@ public class RatingRepository
             return 0;
         }
        
-    }
-    /*Math.Round(context.Ratings.Where(x => x.MovieId == movieId).Average(x => x.Rated),2);*/
+    }   
 }
 

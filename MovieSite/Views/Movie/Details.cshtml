@@ -6,7 +6,7 @@
 @model MovieSite.ViewModel.MovieVM.DetailsVM
 <!DOCTYPE html>
 <html lang="zxx">
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 <body>
@@ -24,24 +24,24 @@
 
             // Create the modal dialog HTML
             var modalHtml = `
-                                                                                                                                    <div class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="trailer-modal-label" aria-hidden="true">
-                                                                                                                                        <div class="modal-dialog modal-lg" role="document">
-                                                                                                                                            <div class="modal-content">
-                                                                                                                                                <div class="modal-header">
-                                                                                                                                                    <h5 class="modal-title" id="trailer-modal-label">@Model.Title Trailer</h5>
-                                                                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                                                                                    </button>
-                                                                                                                                                </div>
-                                                                                                                                                <div class="modal-body">
-                                                                                                                                                    <div class="embed-responsive embed-responsive-16by9">
-                                                                                                                                                        <iframe class="embed-responsive-item" src="${embedUrl}" allowfullscreen></iframe>
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                            </div>
-                                                                                                                                        </div>
-                                                                                                                                    </div>
-                                                                                                                                `;
+                                <div class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="trailer-modal-label" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="trailer-modal-label">@Model.Title Trailer</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="embed-responsive embed-responsive-16by9">
+                                                    <iframe class="embed-responsive-item" src="${embedUrl}" allowfullscreen></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
 
             // Add the modal dialog to the body of the page
             $("body").append(modalHtml);
@@ -56,21 +56,6 @@
         });
     </script>
 
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="/Home/index"><i class="fa fa-home"></i> Home</a>
-                        <a href="/Home/categories">Categories</a>
-                        <span>Romance</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
     <!-- Anime Section Begin -->
     <section class="anime-details spad">
         <div class="container">
@@ -90,23 +75,48 @@
                             </div>
                             <div class="anime__details__rating">
                                 <div class="rating" id="stars">
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 1 })"><i class="fa fa-star"></i></a>
-                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 2 })"><i class="fa fa-star"></i></a>
-                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 3 })"><i class="fa fa-star"></i></a>
-                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 4 })"><i class="fa fa-star"></i></a>
-                                        <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 5 })"><i class="fa fa-star-half-o"></i></a>
-                                    }
-                                    @if (!User.Identity.IsAuthenticated)
-                                    {
-                                        <a href="/users/login"><i class="fa fa-star"></i></a>
-                                        <a href="/users/login"><i class="fa fa-star"></i></a>
-                                        <a href="/users/login"><i class="fa fa-star"></i></a>
-                                        <a href="/users/login"><i class="fa fa-star"></i></a>
-                                        <a href="/users/login"><i class="fa fa-star-half-o"></i></a>
-                                    }
-                                </div>                                
+                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 1 })"><i class="fa"></i></a>
+                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 2 })"><i class="fa"></i></a>
+                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 3 })"><i class="fa"></i></a>
+                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 4 })"><i class="fa"></i></a>
+                                    <a href="@Url.Action("Rate", new { movieId=@Model.id, rated = 5 })"><i class="fa"></i></a>
+                                    <span>Вотове @Model.Votes </span>
+                                </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        let roundedRating = parseFloat(@Convert.ToString(@Model.Rating).Replace(',','.'));
+
+                                        function updateStars(rating) {
+                                            $(".rating a").each(function(index) {
+                                                let star = $(this).find("i");
+                                                if (index + 1 <= rating) {
+                                                    star.removeClass("fa-star-o fa-star-half-o").addClass("fa-star");
+                                                } else if (index + 0.5 === rating) {
+                                                    star.removeClass("fa-star fa-star-o").addClass("fa-star-half-o");
+                                                } else {
+                                                    star.removeClass("fa-star fa-star-half-o").addClass("fa-star-o");
+                                                }
+                                            });
+                                        }
+
+                                        $(".rating a").hover(
+                                            function() {
+                                                let rating = parseInt($(this).data("rated"));
+                                                updateStars(rating);
+                                            },
+                                            function() {
+                                                updateStars(roundedRating);
+                                            }
+                                        );
+
+                                        $(".rating a").each(function(index) {
+                                            $(this).data("rated", index + 1);
+                                            $(this).find("i").addClass("fa");
+                                        });
+
+                                        updateStars(roundedRating);
+                                    });
+                                </script>
                             </div>
                             <p>
                                 @Model.Description
@@ -122,7 +132,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Ратинг:</span> @Model.Rating/ @Model.Votes</li>
+                                            <li><span>Ратинг:</span> @Model.Rating/ 5</li>
                                             <li><span>Актьори:</span> @Model.Actors</li>
                                             <li><span>Година на създаване:</span> @Model.ReleaseYear</li>
                                         </ul>
@@ -134,16 +144,16 @@
                                 {
                                     if (@Model.IsFavorite)
                                     {
-                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id&isFavorite=@Model.IsFavorite"><i class="fa fa-heart-o"></i> Unfollow</a>
+                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id&isFavorite=@Model.IsFavorite"><i class="fa fa-heart-o"></i>Премахване от Любими</a>
                                     }
                                     else
                                     {
-                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id&isFavorite=@Model.IsFavorite"><i class="fa fa-heart-o"></i> Follow</a>
+                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id&isFavorite=@Model.IsFavorite"><i class="fa fa-heart-o"></i>Добави в Любими</a>
                                     }
                                 }
                                 else
                                 {
-                                    <a class="follow-btn" href="/Users/Login"><i class="fa fa-heart-o"></i> Follow</a>
+                                    <a class="follow-btn" href="/Users/Login"><i class="fa fa-heart-o"></i>Добави в Любими</a>
 
                                 }
 
@@ -157,7 +167,7 @@
             <div class="col-lg-8 col-md-8">
                 <div class="anime__details__review">
                     <div class="section-title">
-                        <h5>Reviews</h5>
+                        <h5>Коментари</h5>
                     </div>
 
                     @foreach (var item in Model.comments)
@@ -170,10 +180,10 @@
                                 </p>
                             </div>
                         </div>
-                        @if (User.Identity.AuthenticationType == "Admin")
+                        @if (User.IsInRole("Admin"))
                         {
                             <div class="col-2">
-                                @Html.ActionLink("Delete", "DeleteMovie", new { id=item.Id }, new{onclick ="return confirm('Do you really want to delete')"})
+                                @Html.ActionLink("Изтрий", "DeleteComment", new { commentId=item.Id,movieId=item.MovieId }, new{onclick ="return confirm('Do you really want to delete')"})
                             </div>
                         }
                     }
@@ -182,7 +192,7 @@
                 {
                     <div class="anime__details__form">
                         <div class="section-title">
-                            <h5>Your Comment</h5>
+                            <h5>Твой Коментар</h5>
                         </div>
                         <form action="/Movie/AddComment" method="post">
                             <input type="hidden" id="model.id" name="movieId" value="@Model.id"></input>

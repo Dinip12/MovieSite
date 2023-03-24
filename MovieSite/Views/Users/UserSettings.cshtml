@@ -1,19 +1,19 @@
 ﻿@model MovieSite.ViewModel.UserVM.EditVM
 
-<h1>Edit User</h1>
+<h1>Промени паролата си</h1>
 
 <form method="post">
     <div class="form-group">
-        <label for="username">Username:</label>
+        <label for="username">Потрбителско име:</label>
         <input type="text" id="username" name="username" class="form-control" value="@Model.Username" disabled>
     </div>
     <div class="form-group">
-        <label for="email">Email:</label>
+        <label for="email">Емайл:</label>
         <input type="email" id="email" name="email" class="form-control" value="@Model.Email">
     </div>
     <div class="form-group">
-        <label for="password">Password:</label>
+        <label for="password">Парола:</label>
         <input type="password" id="password" name="password" class="form-control" value="">
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Запази</button>
 </form>
