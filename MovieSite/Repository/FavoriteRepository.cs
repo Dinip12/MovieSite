@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using MovieSite.Migrations;
 
 namespace MovieSite.Repository
 {
@@ -18,27 +19,16 @@ namespace MovieSite.Repository
             movieRepository = new MovieRepository();
             context = new AppDbContext();
         }
-        public void isFavorite(int favoriteId,int movieid)
+        public void isFavorite(Favorite favorite)
         {
-            Movie movie = movieRepository.GetById(movieid);
-            
-            if (movie.IsFavorite)
+            if (favorite.Id > 0)
             {
-                Favorite favorite = context.Favorites.Find(favoriteId);
                 DeleteFavoriteByID(favorite.Id);
-                movie.IsFavorite = false;
-
             }
             else
             {
-                Favorite favorite = new Favorite();
-                favorite.UserId = favoriteId;
-                favorite.MovieId = movie.Id;
                 InsertFavorite(favorite);
-                movie.IsFavorite = true;
             }
-
-            movieRepository.UpdateMovie(movie);
         } 
         public void InsertFavorite(Favorite item)
         {
@@ -47,29 +37,27 @@ namespace MovieSite.Repository
             favorite.UserId = item.UserId;
             favorite.MovieId = item.MovieId;
             
-
             context.Favorites.Add(favorite);
             context.SaveChanges();
         }
         public void DeleteFavoriteByID(int id)
         {
 
-            Favorite favorite = context.Favorites.Find(id);
 
-            context.Favorites.Remove(favorite);
+            context.Favorites.Remove(context.Favorites.Find(id));
 
             context.SaveChanges();
         }
-        public int FindFavoriteId(int movieid, int userId)
+        public Favorite FindFavorite(int movieid, int userId)
         {
             foreach (var item in context.Favorites)
             {
                 if (item.MovieId == movieid && item.UserId == userId)
                 {
-                    return item.Id;
+                    return item;
                 }
             }
-            return -1;
+            return null;
         }
         public List<Movie> getAllFavorites(int userId)
         {

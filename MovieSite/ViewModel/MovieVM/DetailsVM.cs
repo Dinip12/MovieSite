@@ -11,7 +11,7 @@ namespace MovieSite.ViewModel.MovieVM
         public MovieCategory MovieCategory { get; set; }
         public IFormFile file { get; set; }
         public string TrailerURL { get; set; }
-        public bool IsFavorite { get; set; }
+        public Favorite favorite{ get; set; }        
         public List<Comment> comments { get; set; }
         public int Votes { get; set; }       
         public double Rating { get; set; }

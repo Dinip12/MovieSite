@@ -21,9 +21,8 @@ public class CommentRepository
     public void DeleteCommentByID(int id)
     {
 
-        Comment comment = context.Comments.Find(id);
 
-        context.Comments.Remove(comment);
+        context.Comments.Remove(context.Comments.Find(id));
 
         context.SaveChanges();
     }

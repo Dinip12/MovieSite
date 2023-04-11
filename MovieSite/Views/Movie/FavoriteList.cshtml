@@ -9,30 +9,30 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="trending__product">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                <div class="section-title">
-                                    <h4>Любими филми</h4>
-                                </div>
-                            </div>                           
-                        </div>
-                <div class="row">
-                    @foreach (var movie in Model.Movies)
-                    {
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  movie.Id})">
-                                </div>
-                                <div class="product__item__text">
-                                    <h5><a href="@Url.Action("Details", "Movie", new { id = movie.Id })">@movie.Title</a></h5>
-                                </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="section-title">
+                                <h4>Любими филми</h4>
                             </div>
                         </div>
-                    }
+                    </div>
+                    <div class="row">
+                        @foreach (var movie in Model.Movies)
+                        {
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  movie.Id})">
+                                    </div>
+                                    <div class="product__item__text">
+                                        <h5><a href="@Url.Action("Details", "Movie", new { id = movie.Id })">@movie.Title</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
 @if (Model.Pager.PagesCount > 1)
 {

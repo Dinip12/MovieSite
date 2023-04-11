@@ -6,10 +6,10 @@ using MovieSite.ViewModel.MovieVM;
 using MovieSite.Data.Enums;
 using MovieSite.ViewModel.Shared;
 using System.Security.Claims;
+using MovieSite.Migrations;
 
 namespace MovieSite.Controllers
 {
-
     public class MovieController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -17,6 +17,8 @@ namespace MovieSite.Controllers
         private readonly FavoriteRepository favoriteRepository;
         private readonly CommentRepository commentRepository;
         private readonly RatingRepository ratingRepository;
+        private readonly UsersRepository userRepository;
+       
         public MovieController(IWebHostEnvironment webhost)
         {
             _webHostEnvironment = webhost;
@@ -24,6 +26,7 @@ namespace MovieSite.Controllers
             favoriteRepository = new FavoriteRepository();
             commentRepository = new CommentRepository();
             ratingRepository = new RatingRepository();
+            userRepository = new UsersRepository();
         }
         public IActionResult Categories(DisplayVM model)
         {
@@ -65,6 +68,7 @@ namespace MovieSite.Controllers
 
             return View(model);
         }
+        //------------------CREATING Movie METHOD---------------//
         [HttpGet]
         public IActionResult Create()
         {
@@ -73,7 +77,7 @@ namespace MovieSite.Controllers
         [HttpPost]
         public IActionResult Create(CreateVM item, IFormFile file)
         {
-            MovieRepository movieRepo = new MovieRepository();
+            
             Movie movie = new Movie();
 
             if (file != null)
@@ -94,11 +98,11 @@ namespace MovieSite.Controllers
             movie.ReleaseYear = item.ReleaseYear;
             movie.Studio = item.Studio;
 
-            movieRepo.InsertMovie(movie);
+            movieRepository.InsertMovie(movie);
             return RedirectToAction("MovieAdmin", "Movie");
         }
         //------------------------------------------------------//
-        //------------------DELETING Movie METHOD----------------//
+        //------------------DELETING Movie METHOD---------------//
         public IActionResult DeleteMovie(int id)
         {
             movieRepository.DeleteMovieByID(id);
@@ -106,11 +110,10 @@ namespace MovieSite.Controllers
             return RedirectToAction("MovieAdmin", "Movie");
         }
         //------------------------------------------------------//
-        //------------------UPDATE Movie METHOD-------------------------//
+        //------------------UPDATE Movie METHOD-----------------//
         [HttpGet]
         public IActionResult UpdateMovie(int id)
         {
-            AppDbContext context = new AppDbContext();
             Movie movie = movieRepository.GetById(id);
             EditVM item = new EditVM();
 
@@ -128,7 +131,7 @@ namespace MovieSite.Controllers
         [HttpPost]
         public IActionResult UpdateMovie(EditVM item)
         {
-            MovieRepository movieRepo = new MovieRepository();
+            
             Movie movie = new Movie();
             movie.Id = item.ID;
             movie.Title = item.Title;
@@ -139,7 +142,7 @@ namespace MovieSite.Controllers
             movie.ReleaseYear = item.ReleaseYear;
             movie.Studio = item.Studio;
 
-            movieRepo.UpdateMovie(movie);
+            movieRepository.UpdateMovie(movie);
 
             return RedirectToAction("MovieAdmin", "Movie");
         }
@@ -154,33 +157,21 @@ namespace MovieSite.Controllers
             detailsVM.Description = item.Description;
             detailsVM.MovieCategory = item.movieCategory;
             detailsVM.TrailerURL = item.TrailerURL;
-            detailsVM.IsFavorite = item.IsFavorite;
-            detailsVM.comments = commentRepository.GetallCommentsByMovieId(detailsVM.id);
+            detailsVM.comments = commentRepository.GetallCommentsByMovieId(id);
             detailsVM.Rating = ratingRepository.GetAverageRating(id);
             detailsVM.Votes = item.Votes;
             detailsVM.Actors = item.Actors;
             detailsVM.ReleaseYear = item.ReleaseYear;
             detailsVM.Studio = item.Studio;
+            try
+            {
+                detailsVM.favorite=favoriteRepository.FindFavorite(id, Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
+            }
+            catch 
+            {
+                detailsVM.favorite = null;
+            }            
             return View(detailsVM);
-        }
-        public IActionResult Follow(int movieId)
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            int favorite = favoriteRepository.FindFavoriteId(movieId, Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
-            if (favorite > 0)
-            {
-                favoriteRepository.isFavorite(favorite, movieId);
-            }
-            else
-            {
-                int UserId = Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value);
-                favoriteRepository.isFavorite(UserId, movieId);
-            }
-
-            return RedirectToAction("Details", "Movie", new { id = movieId });
         }
         public IActionResult AddComment(int movieId, string text)
         {
@@ -189,17 +180,18 @@ namespace MovieSite.Controllers
                 return RedirectToAction("Login", "Users");
             }
             Comment comment = new Comment();
-            UsersRepository userrepo = new UsersRepository();
+           
 
             comment.MovieId = movieId;
             comment.UserId = Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value);
             comment.Text = text;
             
 
-            comment.Username = userrepo.GetUsernameById(Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
+            comment.Username = userRepository.GetUsernameById(Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
             commentRepository.InsertComment(comment);
             return RedirectToAction("Details", "Movie", new { id = movieId });
         }
+        //
         public IActionResult DeleteComment(int commentId,int movieId)
         {
             commentRepository.DeleteCommentByID(commentId);
@@ -221,6 +213,23 @@ namespace MovieSite.Controllers
             }
             rating.Rated = rated;
             ratingRepository.isRated(rating);
+            return RedirectToAction("Details", new { id = movieId });
+        }
+        public IActionResult Follow(int movieId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            Favorite favorite = favoriteRepository.FindFavorite(movieId, Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value));
+            if (favorite==null)
+            {
+                favorite = new Favorite();
+                favorite.MovieId = movieId;
+                favorite.UserId = Convert.ToInt32(User.FindFirst(ClaimTypes.Sid).Value);
+            }
+            favoriteRepository.isFavorite(favorite);
+
             return RedirectToAction("Details", new { id = movieId });
         }
         public IActionResult FavoriteList(DisplayVM model)

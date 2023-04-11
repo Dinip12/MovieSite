@@ -18,7 +18,7 @@ namespace MovieSite.Entity
         public string fileName { get; set; }
         public string TrailerURL { get; set; }
         public int Votes { get; set; }
-        public bool IsFavorite { get; set; } = false;
+        
         public string Actors { get; set; }
         public string ReleaseYear { get; set; }
         public string Studio { get; set; }

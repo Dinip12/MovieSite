@@ -17,8 +17,6 @@ namespace MovieSite.Controllers
             _webHostEnvironment = webHostEnvironment;
             context = new AppDbContext();
         }
-
-
         public FileResult GetImage(int id)
         {
 
@@ -50,7 +48,5 @@ namespace MovieSite.Controllers
             model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);           
             return View(model);
         }
-
-
     }
 }

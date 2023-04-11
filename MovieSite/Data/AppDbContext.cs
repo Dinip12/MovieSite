@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Collections.Generic;
 
-
 namespace MovieSite.Data
 {
     public class AppDbContext : DbContext
@@ -20,6 +19,5 @@ namespace MovieSite.Data
             Comments = this.Set<Comment>();
             Ratings = this.Set<Rating>();
         }
-
     }
 }

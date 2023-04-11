@@ -40,14 +40,14 @@ namespace ProjectManager.Controllers
             if (!ModelState.IsValid)
                 return View(item);
 
-            UsersRepository usersRepository = new UsersRepository();
+            
             User user = new User();
 
             user.username = item.Username;
             user.password = encoder.Encode(item.Password);
             user.email = item.Email;
             user.IsAdmin = false;
-            usersRepository.AddUser(user);
+            userRepo.AddUser(user);
             List<Claim> claims = new List<Claim>() {
                     new Claim(ClaimTypes.NameIdentifier , $"{user.username}"),
                     new Claim(ClaimTypes.Email , user.email),
@@ -108,7 +108,6 @@ namespace ProjectManager.Controllers
                     new ClaimsPrincipal(claimsIdentity), properties);
             }
             return RedirectToAction("Index", "Home");
-
         }
         //-------------------------------------------------------//
         //------------------DISPLAYS ALL USERS-------------------//
@@ -131,13 +130,12 @@ namespace ProjectManager.Controllers
 
                 var filter = model.Filter.GetFilter();
 
-                UsersRepository usersRepository = new UsersRepository();
-                model.Items = usersRepository.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
-                model.Pager.PagesCount = (int)Math.Ceiling(usersRepository.UsersCount(filter) / (double)model.Pager.ItemsPerPage);
+                
+                model.Items = userRepo.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
+                model.Pager.PagesCount = (int)Math.Ceiling(userRepo.UsersCount(filter) / (double)model.Pager.ItemsPerPage);
 
                 return View(model);
             }
-
         }
         //-------------------------------------------------------//
         //------------------ADD METHOD---------------------------//
@@ -151,8 +149,7 @@ namespace ProjectManager.Controllers
         {
             if (!ModelState.IsValid)
                 return View(item);
-
-            UsersRepository userRepo = new UsersRepository();
+            
             User user = new User();
             user.username = item.Username;
             user.password = encoder.Encode(item.Password);
@@ -174,8 +171,6 @@ namespace ProjectManager.Controllers
         //------------------DELETING USER METHOD----------------//
         public IActionResult DeleteUser(int id)
         {
-            UsersRepository userRepo = new UsersRepository();
-
             userRepo.DeleteUser(id);
 
             return RedirectToAction("UserList", "Users");
@@ -185,8 +180,8 @@ namespace ProjectManager.Controllers
         [HttpGet]
         public IActionResult UpdateUser(int id)
         {
-            AppDbContext context = new AppDbContext();
-            User user = context.Users.Find(id);
+
+            User user = userRepo.GetById(id);
             EditVM item = new EditVM();
 
             item.ID = user.Id;
@@ -200,7 +195,7 @@ namespace ProjectManager.Controllers
         [HttpPost]
         public IActionResult UpdateUser(EditVM item)
         {
-            UsersRepository userRepo = new UsersRepository();
+            
             User user = new User();
             user.Id = item.ID;
             user.username = item.Username;
@@ -234,7 +229,6 @@ namespace ProjectManager.Controllers
 
             return View(edit);
         }
-
         [HttpPost]
         public IActionResult UserSettings(EditVM viewModel)
         {

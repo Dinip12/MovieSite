@@ -21,21 +21,21 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                   <a href="/Movie/Categories" class="primary-btn">Виж Всички <span class="arrow_right"></span></a>
+                                    <a href="/Movie/Categories" class="primary-btn">Виж Всички <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            @foreach (var item in Model.Movies.Take(6).OrderBy(x=>x.Votes))
+                            @foreach (var item in Model.Movies.Take(6).OrderBy(x => x.Votes))
                             {
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>                                            
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
                                             <div class="view"><i class="fa fa-eye"></i> @item.Votes</div>
                                         </div>
                                         <div class="product__item__text">
                                             <ul>
-                                                <li>@item.movieCategory</li>                                                
+                                                <li>@item.movieCategory</li>
                                             </ul>
                                             <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
                                         </div>
@@ -53,21 +53,21 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                   <a href="/Movie/Categories" class="primary-btn">Виж Всички <span class="arrow_right"></span></a>
+                                    <a href="/Movie/Categories" class="primary-btn">Виж Всички <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            @foreach (var item in Model.Movies.Take(6).OrderBy(x=>x.Votes))
+                            @foreach (var item in Model.Movies.Take(6).OrderBy(x => x.Votes))
                             {
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>                                            
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
                                             <div class="view"><i class="fa fa-eye"></i> @item.Votes</div>
                                         </div>
                                         <div class="product__item__text">
                                             <ul>
-                                                <li>@item.movieCategory</li>                                                
+                                                <li>@item.movieCategory</li>
                                             </ul>
                                             <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
                                         </div>
@@ -94,12 +94,12 @@
                             {
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>                                            
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
                                             <div class="view"><i class="fa fa-eye"></i> @item.Votes</div>
                                         </div>
                                         <div class="product__item__text">
                                             <ul>
-                                                <li>@item.movieCategory</li>                                                
+                                                <li>@item.movieCategory</li>
                                             </ul>
                                             <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
                                         </div>
@@ -117,20 +117,20 @@
                                 <h5>Най-много вотове</h5>
                             </div>
                             <div class="filter__gallery">
-                                @foreach (var item in Model.Movies.Take(8).OrderBy(x=>x.Votes))
+                                @foreach (var item in Model.Movies.Take(8).OrderBy(x => x.Votes))
                                 {
                                     <div class="product__sidebar__view__item set-bg mix day years" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
-                                    <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
-                                </div>                                
+                                        <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
+                                    </div>
                                 }
 
-                            
+
+                            </div>
                         </div>
+
                     </div>
-                   
                 </div>
             </div>
-        </div>
         </div>
     </section>
     <!-- Product Section End -->

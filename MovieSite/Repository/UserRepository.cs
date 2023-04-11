@@ -46,8 +46,8 @@ namespace MovieSite.Repository
         }
         public void DeleteUser(int id)
         {
-            User user = context.Users.Find(id);
-            context.Users.Remove(user);
+            
+            context.Users.Remove(context.Users.Find(id));
             context.Ratings.RemoveRange(context.Ratings.Where(x => x.MovieId == id));
             context.Favorites.RemoveRange(context.Favorites.Where(x => x.MovieId == id));
             context.Comments.RemoveRange(context.Comments.Where(x => x.MovieId == id));
@@ -78,6 +78,10 @@ namespace MovieSite.Repository
             ScryptEncoder encoder = new ScryptEncoder();
             foreach (var user in context.Users)
             {
+                if (user.email==null|| user.password==null)
+                {
+                    return null;
+                }
                 if (user.email.Equals(email) && encoder.Compare(password, user.password))
                 {
                     return user;

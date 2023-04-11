@@ -53,8 +53,7 @@ namespace MovieSite.Repository
             movie.Description = item.Description;
             movie.movieCategory = item.movieCategory;
             movie.TrailerURL = item.TrailerURL;
-            movie.Votes = item.Votes;
-            movie.IsFavorite = item.IsFavorite;
+            movie.Votes = item.Votes;           
             movie.Actors = item.Actors;
             movie.ReleaseYear = item.ReleaseYear;
             movie.Studio = item.Studio;

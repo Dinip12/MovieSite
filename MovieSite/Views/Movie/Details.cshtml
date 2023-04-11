@@ -142,13 +142,13 @@
                             <div class="anime__details__btn">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    if (@Model.IsFavorite)
+                                    if (@Model.favorite==null)
                                     {
-                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id&isFavorite=@Model.IsFavorite"><i class="fa fa-heart-o"></i>Премахване от Любими</a>
+                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id"><i class="fa fa-heart-o"></i>Добави в Любими</a>
                                     }
                                     else
                                     {
-                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id&isFavorite=@Model.IsFavorite"><i class="fa fa-heart-o"></i>Добави в Любими</a>
+                                        <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id"><i class="fa fa-heart-o"></i>Премахване от Любими</a>
                                     }
                                 }
                                 else
