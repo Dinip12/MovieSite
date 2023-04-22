@@ -4,49 +4,48 @@ using MovieSite.Entity;
 using MovieSite.Repository;
 using MovieSite.ViewModel.MovieVM;
 using MovieSite.ViewModel.Shared;
-using System.Diagnostics;
 
 namespace MovieSite.Controllers
 {
-    public class HomeController : Controller
-    {
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private AppDbContext context;
-        public HomeController(IWebHostEnvironment webHostEnvironment)
-        {
-            _webHostEnvironment = webHostEnvironment;
-            context = new AppDbContext();
-        }
-        public FileResult GetImage(int id)
-        {
+	public class HomeController : Controller
+	{
+		private readonly IWebHostEnvironment _webHostEnvironment;
+		private AppDbContext context;
+		public HomeController(IWebHostEnvironment webHostEnvironment)
+		{
+			_webHostEnvironment = webHostEnvironment;
+			context = new AppDbContext();
+		}
+		public FileResult GetImage(int id)
+		{
 
-            Movie movies = context.Movies.Find(id);
+			Movie movies = context.Movies.Find(id);
 
-            string rootPath = _webHostEnvironment.WebRootPath;
-            var path = Path.Combine(rootPath + "\\img", movies.fileName + ".png");
+			string rootPath = _webHostEnvironment.WebRootPath;
+			var path = Path.Combine(rootPath + "\\img", movies.fileName + ".png");
 
-            byte[] imageByteData = System.IO.File.ReadAllBytes(path);
-            return File(imageByteData, "image/png");
-        }
-        public IActionResult Index(DisplayVM model)
-        {
+			byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+			return File(imageByteData, "image/png");
+		}
+		public IActionResult Index(DisplayVM model)
+		{
 
-            model.Pager ??= new PagerVM();
-            model.Filter ??= new FilterVM();
-            model.Pager.ItemsPerPage = model.Pager.ItemsPerPage <= 0
-                                        ? 10
-                                        : model.Pager.ItemsPerPage;
+			model.Pager ??= new PagerVM();
+			model.Filter ??= new FilterVM();
+			model.Pager.ItemsPerPage = model.Pager.ItemsPerPage <= 0
+										? 10
+										: model.Pager.ItemsPerPage;
 
-            model.Pager.Page = model.Pager.Page <= 0
-                                    ? 1
-                                    : model.Pager.Page;
+			model.Pager.Page = model.Pager.Page <= 0
+									? 1
+									: model.Pager.Page;
 
-            var filter = model.Filter.GetFilter();
+			var filter = model.Filter.GetFilter();
 
-            MovieRepository movieRepository = new MovieRepository();
-            model.Movies = movieRepository.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
-            model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);           
-            return View(model);
-        }
-    }
+			MovieRepository movieRepository = new MovieRepository();
+			model.Movies = movieRepository.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
+			model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);
+			return View(model);
+		}
+	}
 }

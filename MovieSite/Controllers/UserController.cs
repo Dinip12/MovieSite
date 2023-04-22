@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MovieSite.Entity;
-using MovieSite.Data;
-using MovieSite.Repository;
-using MovieSite.ViewModel.UserVM;
-using MovieSite.ViewModel.Shared;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using MovieSite.Entity;
+using MovieSite.Repository;
+using MovieSite.ViewModel.Shared;
+using MovieSite.ViewModel.UserVM;
 using Scrypt;
+using System.Security.Claims;
 
 namespace ProjectManager.Controllers
 {
@@ -40,7 +39,7 @@ namespace ProjectManager.Controllers
             if (!ModelState.IsValid)
                 return View(item);
 
-            
+
             User user = new User();
 
             user.username = item.Username;
@@ -130,7 +129,7 @@ namespace ProjectManager.Controllers
 
                 var filter = model.Filter.GetFilter();
 
-                
+
                 model.Items = userRepo.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
                 model.Pager.PagesCount = (int)Math.Ceiling(userRepo.UsersCount(filter) / (double)model.Pager.ItemsPerPage);
 
@@ -142,35 +141,36 @@ namespace ProjectManager.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
+                return RedirectToAction("Index", "Home");
             return View();
         }
         [HttpPost]
         public IActionResult Create(CreateVM item)
         {
-            if (!ModelState.IsValid)
-                return View(item);
-            
-            User user = new User();
-            user.username = item.Username;
-            user.password = encoder.Encode(item.Password);
-            user.email = item.Email;
-            user.IsAdmin = item.IsAdmin;
-
-            userRepo.AddUser(user);
-
             if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
-            {
-                return RedirectToAction("UserList", "Users");
-            }
+                return RedirectToAction("Index", "Home");
             else
             {
-                return RedirectToAction("Index", "Home");
+                if (!ModelState.IsValid)
+                    return View(item);
+
+                User user = new User();
+                user.username = item.Username;
+                user.password = encoder.Encode(item.Password);
+                user.email = item.Email;
+                user.IsAdmin = item.IsAdmin;
+
+                userRepo.AddUser(user);
+                return RedirectToAction("UserList", "Users");
             }
         }
         //------------------------------------------------------//
         //------------------DELETING USER METHOD----------------//
         public IActionResult DeleteUser(int id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
+                return RedirectToAction("Index", "Home");
             userRepo.DeleteUser(id);
 
             return RedirectToAction("UserList", "Users");
@@ -195,7 +195,7 @@ namespace ProjectManager.Controllers
         [HttpPost]
         public IActionResult UpdateUser(EditVM item)
         {
-            
+
             User user = new User();
             user.Id = item.ID;
             user.username = item.Username;

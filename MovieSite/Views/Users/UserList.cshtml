@@ -10,7 +10,7 @@
 
 
     <form action="/Users/UserList" method="get">
-        <div class="row" style="margin-left:250px">
+        <div class="row" style="margin-left:250px; color:white">
             <div class="col-4">
                 @Html.LabelFor(x=>x.Filter.Username)
             </div>
@@ -21,7 +21,7 @@
             <div class="col-2">
             </div>
         </div>
-        <div class="row" style="margin-left:250px">
+        <div class="row" style="margin-left:250px; color:white ">
             <div class="col-4">
                 @Html.TextBoxFor(x=>x.Filter.Username)
             </div>
@@ -41,13 +41,13 @@
 
 
 
-    <div class="row" style="margin-left:250px">
+    <div class="row" style="margin-left:250px; color:white">
         <div class="col-3">
             <a class="left" href="/Users/Create">Нов потрбител</a>
         </div>
     </div>
 
-    <div class="row" style="margin-left:250px">
+    <div class="row" style="margin-left:250px; color:white">
 
         <div class="col-1 textColor">
             Потебителско име
@@ -71,7 +71,7 @@
     </div>
     @foreach (var item in Model.Items)
     {
-        <div class="row" style="margin-left:250px">
+        <div class="row" style="margin-left:250px; color:white">
             <div class="col-1">
                 @item.username
             </div>
@@ -92,7 +92,7 @@
             </div>
         </div>
     }
-    <div style="margin-left:250px">
+    <div style="margin-left:250px; color:white">
         @{
             Html.RenderPartial("/Views/Shared/PagerPartial.cshtml", Model.Pager);
         }

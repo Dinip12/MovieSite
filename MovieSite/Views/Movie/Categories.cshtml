@@ -36,7 +36,7 @@
     </div>
     <!-- Breadcrumb End -->
     <form action="/Movie/Categories" method="get">
-        <div class="row" style="margin-left:250px">
+        <div class="row" style="margin-left:250px;color:white">
             <div class="col-4">
                 <div class="form-group">
                     <label asp-for="Filter.Category" class="control-label"></label>
@@ -93,19 +93,22 @@
                         <div class="product__sidebar__view">
                             <div class="section-title">
                                 <h5>Най-много вотове</h5>
-                                <div class="filter__gallery">
-                                    @foreach (var item in Model.Movies.Take(8).OrderBy(x => x.Votes))
-                                    {
-                                        <div class="product__sidebar__view__item set-bg mix day years" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
-                                            <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
-                                        </div>
-                                    }
-                                </div>
+                            </div>
+                            <div class="filter__gallery">
+                                @foreach (var item in Model.Movies.Take(8).OrderBy(x => x.Votes))
+                                {
+                                    <div class="product__sidebar__view__item set-bg mix day years" data-setbg="@Url.Action("GetImage", "Home",new { id =  item.Id})" )>
+                                        <h5><a href="/Movie/Details/@item.Id">@item.Title</a></h5>
+                                    </div>
+                                }
+
+
                             </div>
                         </div>
+
                     </div>
-                </div>
             </div>
+        </div>
         </div>
     </section>
     <!-- Product Section End -->

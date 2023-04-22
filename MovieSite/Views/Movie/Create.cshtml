@@ -4,60 +4,62 @@
 @{
     ViewData["Title"] = "Create";
 }
+<div style="margin-left:40%">
+    <h1 style="color:white">Create</h1>
 
-<h1>Create</h1>
+    <h4 style="color:white">CreateVM</h4>
 
-<h4>CreateVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form action="/Movie/Create" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrailerURL" class="control-label"></label>
-                <input asp-for="TrailerURL" class="form-control" />
-                <span asp-validation-for="TrailerURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Actors" class="control-label"></label>
-                <input asp-for="Actors" class="form-control" />
-                <span asp-validation-for="Actors" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReleaseYear" class="control-label"></label>
-                <input asp-for="ReleaseYear" class="form-control" />
-                <span asp-validation-for="ReleaseYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Studio" class="control-label"></label>
-                <input asp-for="Studio" class="form-control" />
-                <span asp-validation-for="Studio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MovieCategory" class="control-label"></label>
-                <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
-                <span asp-validation-for="MovieCategory" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="file" name="file" id="file" accept=".png" placeholder="Movie Photo">
 
-            </div>
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </form>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form action="/Movie/Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="TrailerURL" class="control-label"></label>
+                    <input asp-for="TrailerURL" class="form-control" />
+                    <span asp-validation-for="TrailerURL" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Actors" class="control-label"></label>
+                    <input asp-for="Actors" class="form-control" />
+                    <span asp-validation-for="Actors" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="ReleaseYear" class="control-label"></label>
+                    <input asp-for="ReleaseYear" class="form-control" />
+                    <span asp-validation-for="ReleaseYear" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Studio" class="control-label"></label>
+                    <input asp-for="Studio" class="form-control" />
+                    <span asp-validation-for="Studio" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="MovieCategory" class="control-label"></label>
+                    <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                    <span asp-validation-for="MovieCategory" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <input type="file" name="file" id="file" accept=".png" placeholder="Movie Photo">
+
+                </div>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a href="/Movie/MovieAdmin">Върни се назад</a>
     </div>
 </div>
-
-<div>
-    <a href="/Movie/MovieAdmin">Върни се назад</a>
-</div>
-

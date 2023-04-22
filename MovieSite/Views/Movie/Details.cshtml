@@ -24,24 +24,24 @@
 
             // Create the modal dialog HTML
             var modalHtml = `
-                                <div class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="trailer-modal-label" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="trailer-modal-label">@Model.Title Trailer</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="embed-responsive embed-responsive-16by9">
-                                                    <iframe class="embed-responsive-item" src="${embedUrl}" allowfullscreen></iframe>
+                                        <div class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="trailer-modal-label" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="trailer-modal-label">@Model.Title Trailer</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <iframe class="embed-responsive-item" src="${embedUrl}" allowfullscreen></iframe>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            `;
+                                    `;
 
             // Add the modal dialog to the body of the page
             $("body").append(modalHtml);
@@ -51,7 +51,7 @@
         }
 
         // Add a click event handler for the trailer button
-        $("#trailer-button").click(function() {
+        $("#trailer-button").click(function () {
             showTrailer();
         });
     </script>
@@ -83,11 +83,11 @@
                                     <span>Вотове @Model.Votes </span>
                                 </div>
                                 <script>
-                                    $(document).ready(function() {
+                                    $(document).ready(function () {
                                         let roundedRating = parseFloat(@Convert.ToString(@Model.Rating).Replace(',','.'));
 
                                         function updateStars(rating) {
-                                            $(".rating a").each(function(index) {
+                                            $(".rating a").each(function (index) {
                                                 let star = $(this).find("i");
                                                 if (index + 1 <= rating) {
                                                     star.removeClass("fa-star-o fa-star-half-o").addClass("fa-star");
@@ -100,16 +100,16 @@
                                         }
 
                                         $(".rating a").hover(
-                                            function() {
+                                            function () {
                                                 let rating = parseInt($(this).data("rated"));
                                                 updateStars(rating);
                                             },
-                                            function() {
+                                            function () {
                                                 updateStars(roundedRating);
                                             }
                                         );
 
-                                        $(".rating a").each(function(index) {
+                                        $(".rating a").each(function (index) {
                                             $(this).data("rated", index + 1);
                                             $(this).find("i").addClass("fa");
                                         });
@@ -142,7 +142,7 @@
                             <div class="anime__details__btn">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    if (@Model.favorite==null)
+                                    if (@Model.favorite == null)
                                     {
                                         <a class="follow-btn" href="/Movie/Follow?movieId=@Model.id"><i class="fa fa-heart-o"></i>Добави в Любими</a>
                                     }
