@@ -180,8 +180,9 @@ namespace ProjectManager.Controllers
         [HttpGet]
         public IActionResult UpdateUser(int id)
         {
-
-            User user = userRepo.GetById(id);
+			if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
+				return RedirectToAction("Index", "Home");
+			User user = userRepo.GetById(id);
             EditVM item = new EditVM();
 
             item.ID = user.Id;

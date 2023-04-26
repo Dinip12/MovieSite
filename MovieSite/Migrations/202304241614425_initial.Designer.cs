@@ -7,13 +7,13 @@ namespace MovieSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class fav1 : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fav1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202302191928224_fav1"; }
+            get { return "202304241614425_initial"; }
         }
         
         string IMigrationMetadata.Source

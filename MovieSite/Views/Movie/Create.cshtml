@@ -17,45 +17,45 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group" style="color:white">
                     <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
+                    <input asp-for="Title" class="form-control" required />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="color:white">
                     <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
+                    <input asp-for="Description" class="form-control" required />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="color:white">
                     <label asp-for="TrailerURL" class="control-label"></label>
-                    <input asp-for="TrailerURL" class="form-control" />
+                    <input asp-for="TrailerURL" class="form-control" required />
                     <span asp-validation-for="TrailerURL" class="text-danger"></span>
-                </div>
+                </div>                
                 <div class="form-group" style="color:white">
                     <label asp-for="Actors" class="control-label"></label>
-                    <input asp-for="Actors" class="form-control" />
+                    <input asp-for="Actors" class="form-control" required />
                     <span asp-validation-for="Actors" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="color:white">
                     <label asp-for="ReleaseYear" class="control-label"></label>
-                    <input asp-for="ReleaseYear" class="form-control" />
+                    <input asp-for="ReleaseYear" class="form-control" required />
                     <span asp-validation-for="ReleaseYear" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="color:white">
                     <label asp-for="Studio" class="control-label"></label>
-                    <input asp-for="Studio" class="form-control" />
+                    <input asp-for="Studio" class="form-control" required />
                     <span asp-validation-for="Studio" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="color:white">
                     <label asp-for="MovieCategory" class="control-label"></label>
-                    <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                    <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()" required></select>
                     <span asp-validation-for="MovieCategory" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="color:white">
-                    <input type="file" name="file" id="file" accept=".png" placeholder="Movie Photo">
-
+                    <input type="file" name="file" id="file" accept=".png" placeholder="Movie Photo" required>
                 </div>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </form>
+
         </div>
     </div>
 

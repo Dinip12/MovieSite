@@ -10,7 +10,7 @@ namespace MovieSite.Data
 		public DbSet<Favorite> Favorites { get; set; }
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Rating> Ratings { get; set; }
-		public AppDbContext() : base("Server=localhost\\sqlexpress;Database=MovieSite;Trusted_Connection=True;")
+		public AppDbContext() : base("Data Source=SQL8005.site4now.net;Initial Catalog=db_a982c0_dinip12;User Id=db_a982c0_dinip12_admin;Password=159753134679g")
 		{
 			Users = this.Set<User>();
 			Movies = this.Set<Movie>();

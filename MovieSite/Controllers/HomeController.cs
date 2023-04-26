@@ -4,6 +4,7 @@ using MovieSite.Entity;
 using MovieSite.Repository;
 using MovieSite.ViewModel.MovieVM;
 using MovieSite.ViewModel.Shared;
+using System.Net.Mail;
 
 namespace MovieSite.Controllers
 {
@@ -46,6 +47,6 @@ namespace MovieSite.Controllers
 			model.Movies = movieRepository.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
 			model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);
 			return View(model);
-		}
+		}		
 	}
 }

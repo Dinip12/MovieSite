@@ -4,78 +4,43 @@
     ViewBag.Title = "UPDATE USER";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
-<center>
-    <div class="container">
+<div style="margin-left:40%">
+    <h1 style="color:white">Update</h1>
 
-        <fieldset>
-            <legend style="color:white">Update User</legend>
-            <form action="/Users/UpdateUser" method="post">
-                @Html.HiddenFor(x=>x.ID)
-                <div class="grid" style="color:white">
-
-                    <div class="row">
-
-                        <div class="col-1">
-                            @Html.LabelFor(x=>x.Username)
-                        </div>
-
-                        <div class="col-2">
-                            @Html.TextBoxFor(x=>x.Username,new { autocomplete = "off" }) @Html.ValidationMessageFor(x=>x.Username)
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-1">
-                            @Html.LabelFor(x=>x.Password)
-                        </div>
-
-                        <div class="col-2">
-                            @Html.TextBoxFor(x=>x.Password,new { autocomplete = "off" })
-
-                        </div>
-                        <div class="col-2">
-                            @Html.ValidationMessageFor(x=>x.Password)
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-1">
-                            @Html.LabelFor(x=>x.Email)
-                        </div>
-
-                        <div class="col-2">
-                            @Html.TextBoxFor(x=>x.Email,new { autocomplete = "off" })
-
-                        </div>
-                        <div class="col-2">
-                            @Html.ValidationMessageFor(x=>x.Email)
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-1">
-                            @Html.LabelFor(x=>x.IsAdmin)
-                        </div>
-
-                        <div class="col-2">
-                            @Html.CheckBoxFor(x=>x.IsAdmin)
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="right">
-                                <a href=/Users/UserList>Върни се назад</a>
-                                <input type="submit" value="update" />
-                            </div>
-                        </div>
-                    </div>
+    <h4 style="color:white">EditVM</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="UpdateUser">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" required />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="color:white">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check" style="color:white">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsAdmin" value="True" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                    </label>
+                </div>
+                <div class="form-group" style="color:white">
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </form>
-        </fieldset>
+        </div>
     </div>
-</center>
+
+    <div style="color:white">
+        <a href="/users/userlist">Върни се назад</a>
+    </div>
+</div>

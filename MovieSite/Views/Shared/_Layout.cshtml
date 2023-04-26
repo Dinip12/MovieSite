@@ -37,10 +37,10 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="~/Home/index">Начална Старница</a></li>
+                                <li class="active"><a href="~/Home/index">Начална Страница</a></li>
                                 <li><a href="/Movie/categories">Жанрове </a></li>
-                                <li><a href="#">Контакти</a></li>
-                                @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
+                               @* <li><a href="/home/Contact">Контакти</a></li>*@
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                 {
                                     <li><a href="/Movie/MovieAdmin">MovieAdmin</a></li>
                                     <li><a href="/Users/UserList">UserAdmin</a></li>
@@ -57,7 +57,7 @@
                             <ul>
                                 <li>
 
-                                    <span class="icon_profile arrow_carrot-down"></span>
+                                    <span class="icon_profile arrow_carrot-down" style="color:white"></span>
                                     <ul class="dropdown"style="top:20px">
 
                                         @if (!User.Identity.IsAuthenticated)
@@ -102,7 +102,7 @@
                         <ul>
                             <li class="active"><a href="/Home/index">Начална Страница</a></li>
                             <li><a href="/Movie/categories">Жанрове</a></li>
-                            <li><a href="#">Контакти</a></li>
+                          @*  <li><a href="#">Контакти</a></li>*@
                             @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
                             {
                                 <li><a href="/Movie/MovieAdmin">MovieAdmin</a></li>
