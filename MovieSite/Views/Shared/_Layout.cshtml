@@ -39,7 +39,7 @@
                             <ul>
                                 <li class="active"><a href="~/Home/index">Начална Страница</a></li>
                                 <li><a href="/Movie/categories">Жанрове </a></li>
-                               @* <li><a href="/home/Contact">Контакти</a></li>*@
+                                <li><a href="/home/Contact">Контакти</a></li>
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                 {
                                     <li><a href="/Movie/MovieAdmin">MovieAdmin</a></li>
@@ -102,7 +102,7 @@
                         <ul>
                             <li class="active"><a href="/Home/index">Начална Страница</a></li>
                             <li><a href="/Movie/categories">Жанрове</a></li>
-                          @*  <li><a href="#">Контакти</a></li>*@
+                            <li><a href="#">Контакти</a></li>
                             @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
                             {
                                 <li><a href="/Movie/MovieAdmin">MovieAdmin</a></li>

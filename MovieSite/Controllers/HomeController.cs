@@ -47,6 +47,18 @@ namespace MovieSite.Controllers
 			model.Movies = movieRepository.GetAll(filter, model.Pager.Page, model.Pager.ItemsPerPage);
 			model.Pager.PagesCount = (int)Math.Ceiling(movieRepository.MovieCount(filter) / (double)model.Pager.ItemsPerPage);
 			return View(model);
-		}		
+		}
+		[HttpGet]
+		public IActionResult Contact()
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Contact(string from, string name, string subject, string body)
+		{
+			MailProcessing smtp = new MailProcessing();
+			smtp.SendEmailToSite(from, name, subject, body);
+			return RedirectToAction("Contact", "Home");
+		}
 	}
 }
